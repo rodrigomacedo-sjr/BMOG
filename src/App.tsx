@@ -1,10 +1,51 @@
+import { useState } from "react";
+import MainScreen from "@/pages/MainScreen";
+import MenuScreen from "@/pages/MenuScreen";
+import GameScreen from "@/pages/GameScreen";
+import Navbar from "@/components/Navbar";
+import type { GameOptions } from "@/types.ts";
+
+type Screen = "main" | "menu" | "game";
+
+const defaultGameOptions: GameOptions = {
+  gridSize: 8,
+  base: 10,
+};
+
 export function App() {
-  return (
-    <div className="max-w-7xl mx-auto p-8 text-center relative z-10">
-      <h1 className="text-5xl font-bold my-4 leading-tight">BMOG</h1>
-      <button>PLAY</button>
-    </div>
-  );
+  const [screen, setScreen] = useState<Screen>("main");
+  const [gameOptions, setGameOptions] =
+    useState<GameOptions>(defaultGameOptions);
+
+  switch (screen) {
+    case "main":
+      return (
+        <>
+          <Navbar onBack={() => setScreen("main")} />
+          <MainScreen onStart={() => setScreen("menu")} />;
+        </>
+      );
+    case "menu":
+      return (
+        <>
+          <Navbar onBack={() => setScreen("main")} />
+          <MenuScreen
+            defaultGameOptions={gameOptions}
+            onStart={(options: GameOptions) => {
+              setGameOptions(options);
+              setScreen("game");
+            }}
+          />
+        </>
+      );
+    case "game":
+      return (
+        <>
+          <Navbar onBack={() => setScreen("main")} />
+          <GameScreen gameOptions={gameOptions} />
+        </>
+      );
+  }
 }
 
 export default App;
