@@ -1,9 +1,16 @@
 import { useState } from "react";
-import type { GameOptions, ValidBases, ValidSizes } from "@/types.ts";
+import type {
+  GameOptions,
+  StartingBoards,
+  ValidBases,
+  ValidSizes,
+} from "@/types.ts";
 
 const gridSizes: ValidSizes[] = [4, 6, 8, 10, 12, 14, 16];
 
 const bases: ValidBases[] = [10, 16];
+
+const startingBoards: StartingBoards[] = ["zeroed", "random"];
 
 type MenuScreenProps = {
   defaultGameOptions: GameOptions;
@@ -25,6 +32,13 @@ function MenuScreen({ defaultGameOptions, onStart }: MenuScreenProps) {
     setGameOptions((current) => ({
       ...current,
       base,
+    }));
+  }
+
+  function selectStartingBoard(startingBoard: StartingBoards) {
+    setGameOptions((current) => ({
+      ...current,
+      startingBoard,
     }));
   }
 
@@ -68,7 +82,25 @@ function MenuScreen({ defaultGameOptions, onStart }: MenuScreenProps) {
         ))}
       </fieldset>
 
-      <button className="game-menu__start" type="submit">Start</button>
+      <fieldset>
+        <legend>Starting Board</legend>
+        {startingBoards.map((startingBoard) => (
+          <label key={startingBoard}>
+            <input
+              type="radio"
+              name="startingBoard"
+              value={startingBoard}
+              checked={gameOptions.startingBoard == startingBoard}
+              onChange={() => selectStartingBoard(startingBoard)}
+            />
+            {startingBoard}
+          </label>
+        ))}
+      </fieldset>
+
+      <button className="game-menu__start" type="submit">
+        Start
+      </button>
     </form>
   );
 }
