@@ -1,12 +1,15 @@
+import logo from "@/assets/bmo.svg";
+
 type MainScreenProps = {
   onStart: () => void;
 };
 
 function MainScreen({ onStart }: MainScreenProps) {
   return (
-    <div className="max-w-7xl mx-auto p-8 text-center relative z-10">
-      <h1 className="text-5xl font-bold my-4 leading-tight">BMOG</h1>
-      <button onClick={onStart}>PLAY</button>
+    <div className="main-menu">
+      <img src={logo} alt="BMOG logo" className="main-menu__logo" />
+      <h1 className="main-menu__title">BMOG</h1>
+      <button className="main-menu__play" onClick={onStart}>PLAY</button>
     </div>
   );
 }

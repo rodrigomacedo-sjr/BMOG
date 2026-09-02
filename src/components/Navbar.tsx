@@ -7,10 +7,10 @@ type NavbarProps = {
 
 export default function Navbar({ onBack }: NavbarProps) {
   return (
-    <div>
-      <div>
-        <img src={logo} alt="BMOG logo" className="w-20" />
-        <h1>BMOG</h1>
+    <div className="site-nav">
+      <div className="site-nav__brand">
+        <img src={logo} alt="BMOG logo" className="site-nav__logo" />
+        <h1 className="site-nav__title">BMOG</h1>
       </div>
       <ReturnButton onClick={onBack} />
     </div>

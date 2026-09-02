@@ -3,5 +3,5 @@ type ReturnButtonProps = {
 };
 
 export default function ReturnButton({ onClick }: ReturnButtonProps) {
-  return <button onClick={onClick}>back to main screen</button>;
+  return <button className="return-button" onClick={onClick}>back to main screen</button>;
 }

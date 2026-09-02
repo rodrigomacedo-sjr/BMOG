@@ -34,12 +34,12 @@ function MenuScreen({ defaultGameOptions, onStart }: MenuScreenProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Select Game Mode</h1>
-      <fieldset>
+    <form className="game-menu" onSubmit={handleSubmit}>
+      <h1 className="game-menu__title">Select Game Mode</h1>
+      <fieldset className="game-menu__group">
         <legend>Grid Size</legend>
         {gridSizes.map((gridSize) => (
-          <label key={gridSize}>
+          <label className="game-menu__option" key={gridSize}>
             <input
               type="radio"
               name="gridSize"
@@ -52,10 +52,10 @@ function MenuScreen({ defaultGameOptions, onStart }: MenuScreenProps) {
         ))}
       </fieldset>
 
-      <fieldset>
+      <fieldset className="game-menu__group">
         <legend>Base</legend>
         {bases.map((base) => (
-          <label key={base}>
+          <label className="game-menu__option" key={base}>
             <input
               type="radio"
               name="base"
@@ -68,7 +68,7 @@ function MenuScreen({ defaultGameOptions, onStart }: MenuScreenProps) {
         ))}
       </fieldset>
 
-      <button type="submit">Start</button>
+      <button className="game-menu__start" type="submit">Start</button>
     </form>
   );
 }
