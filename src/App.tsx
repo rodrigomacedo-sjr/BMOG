@@ -22,14 +22,14 @@ export function App() {
     case "main":
       return (
         <>
-          <Navbar onBack={() => setScreen("main")} />
+          <Navbar gameOptions={gameOptions} showGameMode={false} onBack={() => setScreen("main")} />
           <MainScreen onStart={() => setScreen("menu")} />;
         </>
       );
     case "menu":
       return (
         <>
-          <Navbar onBack={() => setScreen("main")} />
+          <Navbar gameOptions={gameOptions} showGameMode={false} onBack={() => setScreen("main")} />
           <MenuScreen
             defaultGameOptions={gameOptions}
             onStart={(options: GameOptions) => {
@@ -42,7 +42,7 @@ export function App() {
     case "game":
       return (
         <>
-          <Navbar onBack={() => setScreen("main")} />
+          <Navbar gameOptions={gameOptions} showGameMode onBack={() => setScreen("main")} />
           <GameScreen gameOptions={gameOptions} />
         </>
       );

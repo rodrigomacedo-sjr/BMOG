@@ -82,10 +82,10 @@ function MenuScreen({ defaultGameOptions, onStart }: MenuScreenProps) {
         ))}
       </fieldset>
 
-      <fieldset>
+      <fieldset className="game-menu__group">
         <legend>Starting Board</legend>
         {startingBoards.map((startingBoard) => (
-          <label key={startingBoard}>
+          <label className="game-menu__option" key={startingBoard}>
             <input
               type="radio"
               name="startingBoard"

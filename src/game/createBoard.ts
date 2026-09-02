@@ -55,7 +55,7 @@ export default function createBoard({
       isCorrect: isColCorrect(state, correctnessMask, gridSize, i),
     };
 
-    rowAnswerKey.push(key);
+    colAnswerKey.push(key);
   }
 
   const newBoard = {

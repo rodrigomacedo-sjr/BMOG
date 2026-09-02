@@ -16,10 +16,10 @@ function GameScreen({ gameOptions }: GameScreenProps) {
     // TODO handle win
     // TODO time??
     // TODO combo??
-    <div className="max-w-7xl mx-auto p-8 text-center relative z-10">
-      <h1 className="text-5xl font-bold my-4 leading-tight">Game Screen</h1>
-      <GameBoardComponent gameBoard={gameBoard} />
+    <div className="game-screen">
+      <h1 className="game-screen__title">Game Screen</h1>
       <InGameMenu onGiveUp={() => console.log("gu")} />
+      <GameBoardComponent gameBoard={gameBoard} />
     </div>
   );
 }
