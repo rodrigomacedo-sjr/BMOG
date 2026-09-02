@@ -1,11 +1,4 @@
-import type {
-  AnswerKey,
-  CellState,
-  GameBoard,
-  StartingBoards,
-  ValidBases,
-  ValidSizes,
-} from "@/types";
+import type { AnswerKey, CellState, GameBoard, GameOptions } from "@/types";
 import {
   colToString,
   intToDecimal,
@@ -16,25 +9,19 @@ import {
   rowToString,
 } from "@/game/utils";
 
-type CreateBoardProps = {
-  base: ValidBases;
-  size: ValidSizes;
-  startingBoard: StartingBoards;
-};
-
 export default function createBoard({
   base,
-  size,
+  gridSize,
   startingBoard,
-}: CreateBoardProps): GameBoard {
+}: GameOptions): GameBoard {
   const state: CellState[][] = [];
   const correctnessMask: CellState[][] = [];
 
-  for (let i = 0; i < size; ++i) {
+  for (let i = 0; i < gridSize; ++i) {
     let stateRow: CellState[] = [];
     let correctRow: CellState[] = [];
 
-    for (let j = 0; j < size; ++j) {
+    for (let j = 0; j < gridSize; ++j) {
       stateRow.push(randomCellState());
       correctRow.push(startingBoard === "zeroed" ? 0 : randomCellState());
     }
@@ -44,7 +31,7 @@ export default function createBoard({
   }
 
   const rowAnswerKey: AnswerKey[] = [];
-  for (let i = 0; i < size; ++i) {
+  for (let i = 0; i < gridSize; ++i) {
     let row = rowToString(correctnessMask, i);
     let rowValue = parseInt(row, 2);
 
@@ -58,14 +45,14 @@ export default function createBoard({
   }
 
   const colAnswerKey: AnswerKey[] = [];
-  for (let i = 0; i < size; ++i) {
-    let col = colToString(correctnessMask, size, i);
+  for (let i = 0; i < gridSize; ++i) {
+    let col = colToString(correctnessMask, gridSize, i);
     let colValue = parseInt(col, 2);
 
     let key = {
       value: colValue,
       visual: base === 10 ? intToDecimal(colValue) : intToHex(colValue),
-      isCorrect: isColCorrect(state, correctnessMask, size, i),
+      isCorrect: isColCorrect(state, correctnessMask, gridSize, i),
     };
 
     rowAnswerKey.push(key);
@@ -73,7 +60,7 @@ export default function createBoard({
 
   const newBoard = {
     base: base,
-    size: size,
+    size: gridSize,
     state: state,
     correctnessMask: correctnessMask,
     rowAnswerKey: rowAnswerKey,

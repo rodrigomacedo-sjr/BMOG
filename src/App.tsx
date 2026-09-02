@@ -10,6 +10,7 @@ type Screen = "main" | "menu" | "game";
 const defaultGameOptions: GameOptions = {
   gridSize: 8,
   base: 10,
+  startingBoard: "random",
 };
 
 export function App() {

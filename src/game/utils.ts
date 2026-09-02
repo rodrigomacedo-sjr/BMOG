@@ -1,7 +1,7 @@
 import type { CellState } from "@/types";
 
 export function randomCellState(): CellState {
-  return Math.floor(Math.random()) ? 0 : 1;
+  return Math.random() < 0.5 ? 0 : 1;
 }
 
 export function colToString(
