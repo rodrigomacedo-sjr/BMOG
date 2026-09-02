@@ -20,17 +20,21 @@
 body::before {
   content: "";
   position: fixed;
-  inset: 0;
-  z-index: -1;
-  opacity: 0.05;
+  inset: -16rem;
+  z-index: 0;
+  opacity: 0.06;
   background: url("@/assets/bmo.svg");
   background-size: 256px;
-  transform: rotate(-12deg) scale(1.35);
+  filter: invert(1);
+  transform: rotate(-12deg) scale(1.35) translate3d(0, 0, 0);
+  will-change: transform;
   animation: slide 30s linear infinite;
   pointer-events: none;
 }
 
 #root {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   height: 100vh;
@@ -252,9 +256,10 @@ body::before {
 }
 
 .board {
+  --group-gap: 0.3rem;
   display: grid;
   gap: clamp(0.2rem, 0.65vw, 0.5rem);
-  width: min(100%, calc(100dvh - 12rem), 56rem);
+  width: min(100%, calc(100dvh - 14rem), 56rem);
   max-height: 100%;
   align-self: center;
   justify-self: center;
@@ -278,6 +283,8 @@ body::before {
 .cell {
   border: 2px solid var(--color-accent);
   background: #1d2947;
+  background-clip: padding-box;
+  cursor: pointer;
   transition: background-color 700ms ease, border-color 700ms ease, color 700ms ease, filter 700ms ease, transform 700ms ease;
 }
 
@@ -344,6 +351,11 @@ body::before {
 
 .board[data-board-size="16"] .ans {
   font-size: clamp(0.4rem, 1.1vw, 0.65rem);
+}
+
+.board__row-spacer {
+  grid-column: 1 / -1;
+  min-height: var(--group-gap);
 }
 
 .bmo {
@@ -429,10 +441,10 @@ body::before {
 
 @keyframes slide {
   from {
-    background-position: 0 0;
+    transform: rotate(-12deg) scale(1.35) translate3d(0, 0, 0);
   }
   to {
-    background-position: 256px 224px;
+    transform: rotate(-12deg) scale(1.35) translate3d(256px, 256px, 0);
   }
 }
 
@@ -590,6 +602,7 @@ body::before {
   .board {
     grid-row: 2;
     align-self: center;
+    margin-bottom: min(8vh, 3rem);
   }
 
   .game-hud {
