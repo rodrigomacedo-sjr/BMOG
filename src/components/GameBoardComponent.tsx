@@ -1,18 +1,11 @@
 import logo from "@/assets/bmo.svg";
 import type { GameBoard } from "@/types";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment } from "react";
 
 type GameBoardProps = {
   gameBoard: GameBoard;
   handleClick: (row: number, col: number) => void;
 };
-
-function getCellEffect(row: number, col: number, size: number, seed: number) {
-  const cellValue = (row * 17 + col * 31 + seed) % (size * size);
-  const count = 1 + (seed % (size * 2));
-
-  return cellValue < count ? ` cell--shift-${cellValue % 3}` : "";
-}
 
 function isGroupBoundary(index: number, size: number) {
   return index < size - 1 && (size - index - 1) % 4 === 0;
@@ -30,16 +23,6 @@ export default function GameBoardComponent({
   gameBoard,
   handleClick,
 }: GameBoardProps) {
-  const [seed, setSeed] = useState(0);
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setSeed((current) => current + 1);
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  }, []);
-
   function handleBoardClick(event: React.MouseEvent<HTMLDivElement>) {
     const cell =
       event.target instanceof Element
@@ -75,7 +58,7 @@ export default function GameBoardComponent({
                     key={colIdx}
                     data-row={rowIdx}
                     data-col={colIdx}
-                    className={`cell${getCellEffect(rowIdx, colIdx, gameBoard.size, seed)}`}
+                    className={`cell cell--${cell}`}
                   >
                     {cell}
                   </div>

@@ -282,43 +282,27 @@ body::before {
 
 .cell {
   border: 2px solid var(--color-accent);
-  background: #1d2947;
   background-clip: padding-box;
   cursor: pointer;
   transition: background-color 700ms ease, border-color 700ms ease, color 700ms ease, filter 700ms ease, transform 700ms ease;
 }
 
-.board__row:nth-child(odd) .cell:nth-child(5n + 2),
-.board__row:nth-child(even) .cell:nth-child(13n + 4) {
-  background: #273863;
+.cell--0 {
+  background: #1d2947;
 }
 
-.board__row:nth-child(3n) .cell:nth-child(7n + 3),
-.board__row:nth-child(2n) .cell:nth-child(17n + 5) {
+.cell--1 {
   background: #322761;
 }
 
-.board__row .cell--shift-0,
-.board__row .cell--shift-1,
-.board__row .cell--shift-2 {
-  filter: brightness(1.7) saturate(2) hue-rotate(28deg);
-}
-
-.board__row .cell--shift-1 {
-  filter: brightness(1.45) saturate(1.8) hue-rotate(16deg);
-}
-
-.board__row .cell--shift-2 {
-  filter: brightness(1.25) saturate(1.5) hue-rotate(8deg);
-}
-
-.board__row .cell:hover {
-  z-index: 1;
-  color: var(--color-primary);
-  background: var(--color-action) !important;
-  border-color: var(--color-action) !important;
-  filter: none;
-  transform: scale(1.1) rotate(-2deg);
+@media (hover: hover) {
+  .board__row .cell:hover {
+    z-index: 1;
+    color: var(--color-primary);
+    background: var(--color-action);
+    border-color: var(--color-action);
+    transform: scale(1.1) rotate(-2deg);
+  }
 }
 
 .cell:active {

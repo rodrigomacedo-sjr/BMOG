@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "bun --hot src/index.html",
     "start": "NODE_ENV=production bun src/index.html",
-    "build": "bun run build.ts"
+    "build": "bun run build.ts",
+    "release": "bun run build -- --public-path=/bmog/ && test -f dist/index.html && git -C /tmp/bmog-pages rm -rf . && cp -R dist/. /tmp/bmog-pages/ && touch /tmp/bmog-pages/.nojekyll && git -C /tmp/bmog-pages add -A && (git -C /tmp/bmog-pages diff --cached --quiet || (git -C /tmp/bmog-pages commit -m \"Deploy site\" && git -C /tmp/bmog-pages push))"
   },
   "dependencies": {
     "bun-plugin-tailwind": "^0.1.2",
