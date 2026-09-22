@@ -2,7 +2,7 @@ import ReturnButton from "@/components/ReturnButton";
 import logo from "@/assets/bmo.svg";
 import type { AudioSettings, AudioTrack } from "@/audio";
 import type { GameOptions } from "@/types";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type NavbarProps = {
   onBack: () => void;
@@ -24,6 +24,20 @@ export default function Navbar({
   onEffectsVolumeChange,
 }: NavbarProps) {
   const [showAudioSettings, setShowAudioSettings] = useState(false);
+  const audioSettingsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function closeOnOutsideClick(event: PointerEvent) {
+      if (!audioSettingsRef.current?.contains(event.target as Node)) {
+        setShowAudioSettings(false);
+      }
+    }
+
+    if (showAudioSettings) {
+      document.addEventListener("pointerdown", closeOnOutsideClick);
+      return () => document.removeEventListener("pointerdown", closeOnOutsideClick);
+    }
+  }, [showAudioSettings]);
 
   return (
     <div className="site-nav">
@@ -36,7 +50,7 @@ export default function Navbar({
           {gameOptions.gridSize} x {gameOptions.gridSize} / Base {gameOptions.base} / {gameOptions.startingBoard}
         </p>
       )}
-      <div className="site-nav__actions">
+      <div className="site-nav__actions" ref={audioSettingsRef}>
         <button
           className="audio-settings__toggle"
           aria-label="Sound settings"

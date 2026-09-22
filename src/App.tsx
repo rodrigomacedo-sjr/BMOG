@@ -59,8 +59,8 @@ export function App() {
             key={gameKey}
             gameOptions={gameOptions}
             onReplay={() => { audio.playEffect("confirm"); setGameKey((key) => key + 1); }}
-            onMenu={() => { audio.playEffect("confirm"); setScreen("menu"); }}
-            onGiveUp={() => setScreen("menu")}
+            onMenu={() => { audio.playEffect("confirm"); setScreen("main"); }}
+            onGiveUp={() => setScreen("main")}
             playEffect={audio.playEffect}
           />
         </>
