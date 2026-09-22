@@ -140,7 +140,7 @@ body::before {
   z-index: 4;
   display: grid;
   gap: 0.7rem;
-  width: 13rem;
+  width: 16rem;
   padding: 0.85rem;
   border: 2px solid var(--color-accent);
   background: var(--color-secondary);
@@ -161,7 +161,7 @@ body::before {
 
 .audio-settings fieldset label {
   display: grid;
-  min-height: 2.1rem;
+  min-height: 2.4rem;
   place-items: center;
   border: 2px solid var(--color-accent);
   cursor: pointer;
