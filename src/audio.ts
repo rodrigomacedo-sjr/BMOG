@@ -86,7 +86,7 @@ function readAudioSettings() {
 export function useAudio() {
   const [settings, setSettings] = useState(readAudioSettings);
   const [playlistIndex, setPlaylistIndex] = useState(0);
-  const musicRef = useRef<HTMLAudioElement>();
+  const musicRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     try {
