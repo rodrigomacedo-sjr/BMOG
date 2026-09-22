@@ -2,6 +2,7 @@ import GameBoardComponent from "@/components/GameBoardComponent";
 import InGameMenu from "@/components/InGameMenu";
 import WinPanel from "@/components/WinPanel";
 import createBoard from "@/game/createBoard";
+import { saveRecord } from "@/storage";
 import {
   calculateColAnswerKey,
   calculateRowAnswerKey,
@@ -28,6 +29,8 @@ function GameScreen({ gameOptions, onReplay, onMenu }: GameScreenProps) {
   const [confirmGiveUp, setConfirmGiveUp] = useState(false);
   const gameBoardRef = useRef(gameBoard);
   const comboRef = useRef(combo);
+  const scoreRef = useRef(score);
+  const highestComboRef = useRef(highestCombo);
   const startedAtRef = useRef(Date.now());
   const lastBoardClickAtRef = useRef(startedAtRef.current);
   const rewardedCellsRef = useRef(new Set<string>());
@@ -146,7 +149,8 @@ function GameScreen({ gameOptions, onReplay, onMenu }: GameScreenProps) {
     if (completedRow) rewardedRowsRef.current.add(row);
     if (completedColumn) rewardedColumnsRef.current.add(col);
     if (move.score) {
-      setScore((currentScore) => currentScore + move.score);
+      scoreRef.current += move.score;
+      setScore(scoreRef.current);
       setScorePopup({ key, score: move.score });
       window.clearTimeout(popupTimeoutRef.current);
       popupTimeoutRef.current = window.setTimeout(
@@ -156,9 +160,8 @@ function GameScreen({ gameOptions, onReplay, onMenu }: GameScreenProps) {
     }
     comboRef.current = move.combo;
     setCombo(move.combo);
-    setHighestCombo((currentHighestCombo) =>
-      Math.max(currentHighestCombo, move.combo),
-    );
+    highestComboRef.current = Math.max(highestComboRef.current, move.combo);
+    setHighestCombo(highestComboRef.current);
 
     const next = { ...current, state: newState, rowAnswerKey, colAnswerKey };
     gameBoardRef.current = next;
@@ -166,7 +169,13 @@ function GameScreen({ gameOptions, onReplay, onMenu }: GameScreenProps) {
 
     if (isGameCorrect(newState, current.correctnessMask, current.size)) {
       wonRef.current = true;
-      setTime(Math.floor((now - startedAtRef.current) / 10));
+      const winTime = Math.floor((now - startedAtRef.current) / 10);
+      setTime(winTime);
+      saveRecord(gameOptions, {
+        time: winTime,
+        score: scoreRef.current,
+        highestCombo: highestComboRef.current,
+      });
       setWon(true);
     }
   }
