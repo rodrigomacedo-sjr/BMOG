@@ -45,9 +45,53 @@ export function isGameCorrect(
 ): boolean {
   let ans = true;
   for (let i = 0; i < size; ++i) {
-    ans ||= isRowCorrect(matrix, answer, i);
+    ans &&= isRowCorrect(matrix, answer, i);
   }
   return ans;
+}
+
+export const SCORE_RULES = {
+  baseScore: 100,
+  minimumClickIntervalSeconds: 0.1,
+  cellComboBonus: 0.3,
+  lineComboBonus: 0.5,
+  doubleLineComboBonus: 0.6,
+} as const;
+
+export type CellScoreMove = {
+  combo: number;
+  secondsSincePreviousBoardClick: number;
+  rewardedCell: boolean;
+  completedRow: boolean;
+  completedColumn: boolean;
+  resetCombo: boolean;
+};
+
+export function scoreMove({
+  combo,
+  secondsSincePreviousBoardClick,
+  rewardedCell,
+  completedRow,
+  completedColumn,
+  resetCombo,
+}: CellScoreMove) {
+  if (resetCombo) return { score: 0, combo: 1 };
+  if (!rewardedCell) return { score: 0, combo };
+
+  const score = Math.round(
+    (SCORE_RULES.baseScore * combo) /
+      Math.max(
+        secondsSincePreviousBoardClick,
+        SCORE_RULES.minimumClickIntervalSeconds,
+      ),
+  );
+  const completedLines = Number(completedRow) + Number(completedColumn);
+  const lineBonus =
+    completedLines === 2
+      ? SCORE_RULES.doubleLineComboBonus * 2
+      : completedLines * SCORE_RULES.lineComboBonus;
+
+  return { score, combo: combo + SCORE_RULES.cellComboBonus + lineBonus };
 }
 
 export function calculateRowAnswerKey(

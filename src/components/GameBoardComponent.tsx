@@ -5,6 +5,7 @@ import { Fragment } from "react";
 type GameBoardProps = {
   gameBoard: GameBoard;
   handleClick: (row: number, col: number) => void;
+  scorePopup?: { key: string; score: number };
 };
 
 function isGroupBoundary(index: number, size: number) {
@@ -22,6 +23,7 @@ function getBoardColumns(size: number) {
 export default function GameBoardComponent({
   gameBoard,
   handleClick,
+  scorePopup,
 }: GameBoardProps) {
   function handleBoardClick(event: React.MouseEvent<HTMLDivElement>) {
     const cell =
@@ -61,6 +63,9 @@ export default function GameBoardComponent({
                     className={`cell cell--${cell}`}
                   >
                     {cell}
+                    {scorePopup?.key === `${rowIdx}:${colIdx}` && (
+                      <span className="cell__score">+{scorePopup.score}</span>
+                    )}
                   </div>
                   {isGroupBoundary(colIdx, gameBoard.size) && (
                     <div className="board__column-spacer" />

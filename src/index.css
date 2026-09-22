@@ -281,10 +281,30 @@ body::before {
 }
 
 .cell {
+  position: relative;
   border: 2px solid var(--color-accent);
   background-clip: padding-box;
   cursor: pointer;
   transition: background-color 700ms ease, border-color 700ms ease, color 700ms ease, filter 700ms ease, transform 700ms ease;
+}
+
+.cell__score {
+  position: absolute;
+  top: -0.8em;
+  left: 50%;
+  z-index: 2;
+  color: var(--color-action);
+  font-size: 0.8em;
+  pointer-events: none;
+  text-shadow: 0 1px 0 #101923;
+  animation: score-pop 600ms ease-out forwards;
+}
+
+@keyframes score-pop {
+  to {
+    transform: translate(-50%, -1.2em);
+    opacity: 0;
+  }
 }
 
 .cell--0 {
