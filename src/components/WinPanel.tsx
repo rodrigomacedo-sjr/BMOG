@@ -4,6 +4,8 @@ type WinPanelProps = {
   time: number;
   score: number;
   highestCombo: number;
+  newBestTime: boolean;
+  newBestScore: boolean;
   onReplay: () => void;
   onMenu: () => void;
 };
@@ -12,6 +14,8 @@ export default function WinPanel({
   time,
   score,
   highestCombo,
+  newBestTime,
+  newBestScore,
   onReplay,
   onMenu,
 }: WinPanelProps) {
@@ -20,6 +24,13 @@ export default function WinPanel({
       <h1 id="win-panel-title" className="win-panel__title">
         you win
       </h1>
+      {(newBestTime || newBestScore) && (
+        <p className="win-panel__record" role="status">
+          <span>new best</span>
+          {newBestTime && <b>time</b>}
+          {newBestScore && <b>score</b>}
+        </p>
+      )}
       <dl className="win-panel__stats">
         <div>
           <dt>time</dt>

@@ -16,6 +16,12 @@ export type GameResult = {
   highestCombo: number;
 };
 
+export type RecordUpdate = {
+  records: GameRecords;
+  newBestTime: boolean;
+  newBestScore: boolean;
+};
+
 export function recordKey({ gridSize, base, startingBoard }: GameOptions) {
   return `${gridSize}:${base}:${startingBoard}`;
 }
@@ -56,6 +62,20 @@ export function mergeRecords(
   };
 }
 
+export function updateRecords(
+  records: GameRecords,
+  options: GameOptions,
+  result: GameResult,
+): RecordUpdate {
+  const previous = records[recordKey(options)];
+
+  return {
+    records: mergeRecords(records, options, result),
+    newBestTime: !previous || result.time < previous.bestTime,
+    newBestScore: !previous || result.score > previous.bestScore,
+  };
+}
+
 export function readRecords(): GameRecords {
   try {
     const value = JSON.parse(localStorage.getItem(RECORDS_KEY) ?? "{}") as unknown;
@@ -76,11 +96,18 @@ export function readRecords(): GameRecords {
   }
 }
 
-export function saveRecord(options: GameOptions, result: GameResult): void {
+export function saveRecord(
+  options: GameOptions,
+  result: GameResult,
+): Pick<RecordUpdate, "newBestTime" | "newBestScore"> {
   try {
+    const update = updateRecords(readRecords(), options, result);
     localStorage.setItem(
       RECORDS_KEY,
-      JSON.stringify(mergeRecords(readRecords(), options, result)),
+      JSON.stringify(update.records),
     );
+    return update;
   } catch {}
+
+  return { newBestTime: false, newBestScore: false };
 }

@@ -24,6 +24,10 @@ function GameScreen({ gameOptions, onReplay, onMenu }: GameScreenProps) {
   const [score, setScore] = useState(0);
   const [combo, setCombo] = useState(1);
   const [highestCombo, setHighestCombo] = useState(1);
+  const [newRecords, setNewRecords] = useState({
+    newBestTime: false,
+    newBestScore: false,
+  });
   const [scorePopup, setScorePopup] = useState<{ key: string; score: number }>();
   const [won, setWon] = useState(false);
   const [confirmGiveUp, setConfirmGiveUp] = useState(false);
@@ -171,11 +175,11 @@ function GameScreen({ gameOptions, onReplay, onMenu }: GameScreenProps) {
       wonRef.current = true;
       const winTime = Math.floor((now - startedAtRef.current) / 10);
       setTime(winTime);
-      saveRecord(gameOptions, {
+      setNewRecords(saveRecord(gameOptions, {
         time: winTime,
         score: scoreRef.current,
         highestCombo: highestComboRef.current,
-      });
+      }));
       setWon(true);
     }
   }
@@ -187,6 +191,7 @@ function GameScreen({ gameOptions, onReplay, onMenu }: GameScreenProps) {
           time={time}
           score={score}
           highestCombo={highestCombo}
+          {...newRecords}
           onReplay={onReplay}
           onMenu={onMenu}
         />

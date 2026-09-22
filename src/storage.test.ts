@@ -5,6 +5,7 @@ import {
   readRecords,
   recordKey,
   saveRecord,
+  updateRecords,
   type GameRecords,
 } from "./storage";
 import type { GameOptions } from "./types";
@@ -45,6 +46,26 @@ test("records use every game option and retain each mode", () => {
   ).toEqual({
     "4:10:zeroed": { bestTime: 90, bestScore: 500, highestCombo: 2 },
     "8:10:random": { bestTime: 80, bestScore: 700, highestCombo: 3 },
+  });
+});
+
+test("updateRecords reports time and score PBs for the exact mode", () => {
+  const update = updateRecords(
+    {
+      "8:10:random": { bestTime: 80, bestScore: 600, highestCombo: 3 },
+      "8:10:zeroed": { bestTime: 70, bestScore: 700, highestCombo: 4 },
+    },
+    options,
+    { time: 70, score: 700, highestCombo: 2 },
+  );
+
+  expect(update).toEqual({
+    newBestTime: true,
+    newBestScore: true,
+    records: {
+      "8:10:random": { bestTime: 70, bestScore: 700, highestCombo: 3 },
+      "8:10:zeroed": { bestTime: 70, bestScore: 700, highestCombo: 4 },
+    },
   });
 });
 

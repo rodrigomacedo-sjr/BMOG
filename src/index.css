@@ -387,6 +387,27 @@ body::before {
   text-transform: uppercase;
 }
 
+.win-panel__record {
+  display: flex;
+  justify-content: center;
+  gap: 0.45rem;
+  margin: -1rem 0 1.4rem;
+  color: var(--color-primary);
+  font: 900 0.8rem/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.win-panel__record span,
+.win-panel__record b {
+  padding: 0.45rem 0.55rem;
+  background: var(--color-action);
+}
+
+.win-panel__record b {
+  background: var(--color-correct);
+}
+
 .win-panel__stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -854,6 +875,10 @@ body::before {
     align-items: center;
     justify-content: space-between;
     padding-inline: 0.8rem;
+  }
+
+  .win-panel__record {
+    flex-wrap: wrap;
   }
 
   .win-panel__stats dd {
