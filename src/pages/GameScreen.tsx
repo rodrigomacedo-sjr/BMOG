@@ -2,8 +2,8 @@ import GameBoardComponent from "@/components/GameBoardComponent";
 import InGameMenu from "@/components/InGameMenu";
 import createBoard from "@/game/createBoard";
 import { calculateColAnswerKey, calculateRowAnswerKey } from "@/game/utils";
-import type { GameBoard, GameOptions } from "@/types";
-import { useState } from "react";
+import type { GameOptions } from "@/types";
+import { useEffect, useState } from "react";
 
 type GameScreenProps = {
   gameOptions: GameOptions;
@@ -11,6 +11,17 @@ type GameScreenProps = {
 
 function GameScreen({ gameOptions }: GameScreenProps) {
   const [gameBoard, setGameBoard] = useState(createBoard(gameOptions));
+  const [time, setTime] = useState(0);
+
+  useEffect(() => {
+    const startedAt = Date.now();
+    const intervalId = setInterval(
+      () => setTime(Math.floor((Date.now() - startedAt) / 10)),
+      10,
+    );
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   function handleClick(row: number, col: number) {
     setGameBoard((current) => {
@@ -47,12 +58,10 @@ function GameScreen({ gameOptions }: GameScreenProps) {
 
   return (
     // TODO handle give up
-    // TODO handle win
-    // TODO time??
     // TODO combo??
     <div className="game-screen">
       <h1 className="game-screen__title">Game Screen</h1>
-      <InGameMenu onGiveUp={() => console.log("gu")} />
+      <InGameMenu time={time} onGiveUp={() => console.log("gu")} />
       <GameBoardComponent gameBoard={gameBoard} handleClick={handleClick} />
     </div>
   );

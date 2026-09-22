@@ -105,3 +105,24 @@ export function intToDecimal(n: number): string {
 export function intToHex(n: number): string {
   return n.toString(16).toUpperCase();
 }
+
+function padZero(num: number): string {
+  if (num < 10) {
+    return "0" + num;
+  }
+  return num.toString();
+}
+
+export function calcTime(time: number) {
+  const min = padZero(Math.floor((time % 360000) / 6000));
+
+  const sec = padZero(Math.floor((time % 6000) / 100));
+
+  const mili = padZero(time % 100);
+
+  if (min != "00") {
+    return `${min}:${sec}.${mili}`;
+  } else {
+    return `${sec}.${mili}`;
+  }
+}
