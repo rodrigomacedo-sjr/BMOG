@@ -18,6 +18,11 @@ function MainScreen({ onStart, onRecords }: MainScreenProps) {
           </svg>
         </button>
       </div>
+      <footer className="main-menu__credits">
+        <span>ehoroger</span>
+        <a href="https://github.com/rodrigomacedo-sjr" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://ko-fi.com/ehoroger" target="_blank" rel="noopener noreferrer">Ko-fi</a>
+      </footer>
     </div>
   );
 }

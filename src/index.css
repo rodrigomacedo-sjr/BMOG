@@ -245,6 +245,33 @@ body::before {
   transform: translate(-1px, -1px);
 }
 
+.main-menu__credits {
+  position: fixed;
+  bottom: clamp(1rem, 4vw, 2rem);
+  left: clamp(1rem, 4vw, 2rem);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  max-width: calc(100% - 5.75rem);
+  color: var(--color-text);
+  font: 800 0.625rem/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.main-menu__credits a {
+  color: var(--color-correct);
+  text-decoration: none;
+}
+
+.main-menu__credits a:hover,
+.main-menu__credits a:focus-visible {
+  color: var(--color-action);
+  outline: none;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
 .records-screen {
   width: min(100% - 2rem, 52rem);
   min-height: 0;
