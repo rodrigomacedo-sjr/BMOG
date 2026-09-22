@@ -18,6 +18,7 @@ function GameScreen({ gameOptions }: GameScreenProps) {
   const [time, setTime] = useState(0);
   const [score, setScore] = useState(0);
   const [combo, setCombo] = useState(1);
+  const [highestCombo, setHighestCombo] = useState(1);
   const [scorePopup, setScorePopup] = useState<{ key: string; score: number }>();
   const gameBoardRef = useRef(gameBoard);
   const comboRef = useRef(combo);
@@ -105,6 +106,9 @@ function GameScreen({ gameOptions }: GameScreenProps) {
     }
     comboRef.current = move.combo;
     setCombo(move.combo);
+    setHighestCombo((currentHighestCombo) =>
+      Math.max(currentHighestCombo, move.combo),
+    );
 
     const next = { ...current, state: newState, rowAnswerKey, colAnswerKey };
     gameBoardRef.current = next;
