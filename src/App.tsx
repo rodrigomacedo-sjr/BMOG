@@ -17,6 +17,7 @@ export function App() {
   const [screen, setScreen] = useState<Screen>("main");
   const [gameOptions, setGameOptions] =
     useState<GameOptions>(defaultGameOptions);
+  const [gameKey, setGameKey] = useState(0);
 
   switch (screen) {
     case "main":
@@ -34,6 +35,7 @@ export function App() {
             defaultGameOptions={gameOptions}
             onStart={(options: GameOptions) => {
               setGameOptions(options);
+              setGameKey((key) => key + 1);
               setScreen("game");
             }}
           />
@@ -43,7 +45,12 @@ export function App() {
       return (
         <>
           <Navbar gameOptions={gameOptions} showGameMode onBack={() => setScreen("main")} />
-          <GameScreen gameOptions={gameOptions} />
+          <GameScreen
+            key={gameKey}
+            gameOptions={gameOptions}
+            onReplay={() => setGameKey((key) => key + 1)}
+            onMenu={() => setScreen("menu")}
+          />
         </>
       );
   }

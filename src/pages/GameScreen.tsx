@@ -1,9 +1,11 @@
 import GameBoardComponent from "@/components/GameBoardComponent";
 import InGameMenu from "@/components/InGameMenu";
+import WinPanel from "@/components/WinPanel";
 import createBoard from "@/game/createBoard";
 import {
   calculateColAnswerKey,
   calculateRowAnswerKey,
+  isGameCorrect,
   scoreMove,
 } from "@/game/utils";
 import type { GameOptions } from "@/types";
@@ -11,15 +13,19 @@ import { useEffect, useRef, useState } from "react";
 
 type GameScreenProps = {
   gameOptions: GameOptions;
+  onReplay: () => void;
+  onMenu: () => void;
 };
 
-function GameScreen({ gameOptions }: GameScreenProps) {
+function GameScreen({ gameOptions, onReplay, onMenu }: GameScreenProps) {
   const [gameBoard, setGameBoard] = useState(createBoard(gameOptions));
   const [time, setTime] = useState(0);
   const [score, setScore] = useState(0);
   const [combo, setCombo] = useState(1);
   const [highestCombo, setHighestCombo] = useState(1);
   const [scorePopup, setScorePopup] = useState<{ key: string; score: number }>();
+  const [won, setWon] = useState(false);
+  const [confirmGiveUp, setConfirmGiveUp] = useState(false);
   const gameBoardRef = useRef(gameBoard);
   const comboRef = useRef(combo);
   const startedAtRef = useRef(Date.now());
@@ -28,11 +34,16 @@ function GameScreen({ gameOptions }: GameScreenProps) {
   const rewardedRowsRef = useRef(new Set<number>());
   const rewardedColumnsRef = useRef(new Set<number>());
   const popupTimeoutRef = useRef<number | undefined>(undefined);
+  const wonRef = useRef(false);
 
   useEffect(() => {
     const startedAt = startedAtRef.current;
     const intervalId = setInterval(
-      () => setTime(Math.floor((Date.now() - startedAt) / 10)),
+      () => {
+        if (!wonRef.current) {
+          setTime(Math.floor((Date.now() - startedAt) / 10));
+        }
+      },
       10,
     );
 
@@ -43,6 +54,8 @@ function GameScreen({ gameOptions }: GameScreenProps) {
   }, []);
 
   function handleClick(row: number, col: number) {
+    if (wonRef.current) return;
+
     const current = gameBoardRef.current;
     const clickedCellWasCorrect =
       current.state[row]?.[col] === current.correctnessMask[row]?.[col];
@@ -113,23 +126,52 @@ function GameScreen({ gameOptions }: GameScreenProps) {
     const next = { ...current, state: newState, rowAnswerKey, colAnswerKey };
     gameBoardRef.current = next;
     setGameBoard(next);
+
+    if (isGameCorrect(newState, current.correctnessMask, current.size)) {
+      wonRef.current = true;
+      setTime(Math.floor((now - startedAtRef.current) / 10));
+      setWon(true);
+    }
   }
 
   return (
-    // TODO handle give up
     <div className="game-screen">
-      <h1 className="game-screen__title">Game Screen</h1>
-      <InGameMenu
-        time={time}
-        score={score}
-        combo={combo}
-        onGiveUp={() => console.log("gu")}
-      />
-      <GameBoardComponent
-        gameBoard={gameBoard}
-        handleClick={handleClick}
-        scorePopup={scorePopup}
-      />
+      {won ? (
+        <WinPanel
+          time={time}
+          score={score}
+          highestCombo={highestCombo}
+          onReplay={onReplay}
+          onMenu={onMenu}
+        />
+      ) : (
+        <>
+          <h1 className="game-screen__title">Game Screen</h1>
+          <InGameMenu
+            time={time}
+            score={score}
+            combo={combo}
+            onGiveUp={() => setConfirmGiveUp(true)}
+          />
+          <GameBoardComponent
+            gameBoard={gameBoard}
+            handleClick={handleClick}
+            scorePopup={scorePopup}
+          />
+          {confirmGiveUp && (
+            <div className="game-confirm" role="dialog" aria-modal="true" aria-labelledby="give-up-title">
+              <div className="game-confirm__panel">
+                <h2 id="give-up-title">give up?</h2>
+                <p>this run will be lost.</p>
+                <div className="game-confirm__actions">
+                  <button onClick={() => setConfirmGiveUp(false)}>cancel</button>
+                  <button onClick={onMenu}>give up</button>
+                </div>
+              </div>
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 }
