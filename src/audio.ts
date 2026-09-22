@@ -109,7 +109,10 @@ export function useAudio() {
     music.addEventListener("ended", advancePlaylist);
     void music.play().catch(() => {});
 
-    return () => music.removeEventListener("ended", advancePlaylist);
+    return () => {
+      music.removeEventListener("ended", advancePlaylist);
+      music.pause();
+    };
   }, [playlistIndex, settings.musicVolume, settings.track]);
 
   useEffect(() => {
