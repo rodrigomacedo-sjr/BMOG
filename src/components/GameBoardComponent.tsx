@@ -6,6 +6,7 @@ type GameBoardProps = {
   gameBoard: GameBoard;
   handleClick: (row: number, col: number) => void;
   scorePopup?: { key: string; score: number };
+  onBmogClick: () => void;
 };
 
 function isGroupBoundary(index: number, size: number) {
@@ -24,6 +25,7 @@ export default function GameBoardComponent({
   gameBoard,
   handleClick,
   scorePopup,
+  onBmogClick,
 }: GameBoardProps) {
   function handleBoardClick(event: React.MouseEvent<HTMLDivElement>) {
     const cell =
@@ -97,9 +99,9 @@ export default function GameBoardComponent({
           )}
         </Fragment>
       ))}
-      <div key="bmo" className="bmo">
+      <button key="bmo" className="bmo" aria-label="Play BMOG sound" onClick={onBmogClick}>
         <img src={logo} alt="BMOG logo" className="game-screen__logo" />
-      </div>
+      </button>
     </div>
   );
 }

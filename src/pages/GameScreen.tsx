@@ -10,15 +10,18 @@ import {
   scoreMove,
 } from "@/game/utils";
 import type { GameOptions } from "@/types";
+import type { AudioEffect } from "@/audio";
 import { useEffect, useRef, useState } from "react";
 
 type GameScreenProps = {
   gameOptions: GameOptions;
   onReplay: () => void;
   onMenu: () => void;
+  onGiveUp: () => void;
+  playEffect: (effect: AudioEffect) => void;
 };
 
-function GameScreen({ gameOptions, onReplay, onMenu }: GameScreenProps) {
+function GameScreen({ gameOptions, onReplay, onMenu, onGiveUp, playEffect }: GameScreenProps) {
   const [gameBoard, setGameBoard] = useState(createBoard(gameOptions));
   const [time, setTime] = useState(0);
   const [score, setScore] = useState(0);
@@ -100,6 +103,8 @@ function GameScreen({ gameOptions, onReplay, onMenu }: GameScreenProps) {
   function handleClick(row: number, col: number) {
     if (wonRef.current) return;
 
+    playEffect("click");
+
     const current = gameBoardRef.current;
     const clickedCellWasCorrect =
       current.state[row]?.[col] === current.correctnessMask[row]?.[col];
@@ -152,6 +157,10 @@ function GameScreen({ gameOptions, onReplay, onMenu }: GameScreenProps) {
     if (rewardedCell) rewardedCellsRef.current.add(key);
     if (completedRow) rewardedRowsRef.current.add(row);
     if (completedColumn) rewardedColumnsRef.current.add(col);
+    if (clickedCellWasCorrect) playEffect("fail");
+    else if (rewardedCell) playEffect("correct");
+    if (completedRow && completedColumn) playEffect("doubleLine");
+    else if (completedRow || completedColumn) playEffect("line");
     if (move.score) {
       scoreRef.current += move.score;
       setScore(scoreRef.current);
@@ -175,11 +184,14 @@ function GameScreen({ gameOptions, onReplay, onMenu }: GameScreenProps) {
       wonRef.current = true;
       const winTime = Math.floor((now - startedAtRef.current) / 10);
       setTime(winTime);
-      setNewRecords(saveRecord(gameOptions, {
+      const records = saveRecord(gameOptions, {
         time: winTime,
         score: scoreRef.current,
         highestCombo: highestComboRef.current,
-      }));
+      });
+      setNewRecords(records);
+      playEffect("win");
+      if (records.newBestTime || records.newBestScore) playEffect("record");
       setWon(true);
     }
   }
@@ -209,6 +221,7 @@ function GameScreen({ gameOptions, onReplay, onMenu }: GameScreenProps) {
             gameBoard={gameBoard}
             handleClick={handleClick}
             scorePopup={scorePopup}
+            onBmogClick={() => playEffect("bmog")}
           />
           {confirmGiveUp && (
             <div
@@ -225,7 +238,7 @@ function GameScreen({ gameOptions, onReplay, onMenu }: GameScreenProps) {
                   <button ref={cancelGiveUpButtonRef} onClick={() => setConfirmGiveUp(false)}>
                     cancel
                   </button>
-                  <button ref={confirmGiveUpButtonRef} onClick={onMenu}>
+                  <button ref={confirmGiveUpButtonRef} onClick={() => { playEffect("giveUp"); onGiveUp(); }}>
                     give up
                   </button>
                 </div>

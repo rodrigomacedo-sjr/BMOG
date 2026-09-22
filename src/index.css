@@ -110,6 +110,60 @@ body::before {
   background: var(--color-action);
 }
 
+.site-nav__actions {
+  grid-column: 3;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.site-nav__actions .return-button {
+  grid-column: auto;
+}
+
+.audio-settings__toggle {
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 2px solid var(--color-accent);
+  color: var(--color-text);
+  background: var(--color-secondary);
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.audio-settings {
+  position: absolute;
+  top: calc(100% + 0.6rem);
+  right: 0;
+  z-index: 4;
+  display: grid;
+  gap: 0.7rem;
+  width: 13rem;
+  padding: 0.85rem;
+  border: 2px solid var(--color-accent);
+  background: var(--color-secondary);
+  box-shadow: 4px 4px 0 var(--color-action);
+  font: 800 0.65rem/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.audio-settings fieldset,
+.audio-settings label {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.audio-settings fieldset label {
+  display: flex;
+  align-items: center;
+}
+
 .return-button:hover,
 .return-button:focus-visible {
   color: var(--color-text);
@@ -600,7 +654,10 @@ body::before {
 }
 
 .bmo {
+  border: 0;
+  padding: 0;
   background: var(--color-secondary);
+  cursor: pointer;
 }
 
 .game-screen__logo {
