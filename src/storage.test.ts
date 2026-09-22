@@ -1,6 +1,7 @@
 import { expect, test } from "bun:test";
 import {
   mergeRecords,
+  orderedRecords,
   readRecords,
   recordKey,
   saveRecord,
@@ -45,6 +46,24 @@ test("records use every game option and retain each mode", () => {
     "4:10:zeroed": { bestTime: 90, bestScore: 500, highestCombo: 2 },
     "8:10:random": { bestTime: 80, bestScore: 700, highestCombo: 3 },
   });
+});
+
+test("orderedRecords lists modes by size, base, then starting board", () => {
+  expect(
+    orderedRecords({
+      "16:16:random": { bestTime: 60, bestScore: 1600, highestCombo: 6 },
+      "4:16:zeroed": { bestTime: 90, bestScore: 400, highestCombo: 2 },
+      "4:10:random": { bestTime: 80, bestScore: 500, highestCombo: 3 },
+      "4:10:zeroed": { bestTime: 100, bestScore: 300, highestCombo: 1 },
+      "16:10:zeroed": { bestTime: 70, bestScore: 900, highestCombo: 4 },
+    } satisfies GameRecords).map(({ key }) => key),
+  ).toEqual([
+    "4:10:zeroed",
+    "4:10:random",
+    "4:16:zeroed",
+    "16:10:zeroed",
+    "16:16:random",
+  ]);
 });
 
 test("saveRecord merges with records in localStorage", () => {

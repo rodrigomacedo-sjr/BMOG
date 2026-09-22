@@ -2,10 +2,11 @@ import { useState } from "react";
 import MainScreen from "@/pages/MainScreen";
 import MenuScreen from "@/pages/MenuScreen";
 import GameScreen from "@/pages/GameScreen";
+import RecordsScreen from "@/pages/RecordsScreen";
 import Navbar from "@/components/Navbar";
 import type { GameOptions } from "@/types.ts";
 
-type Screen = "main" | "menu" | "game";
+type Screen = "main" | "menu" | "game" | "records";
 
 const defaultGameOptions: GameOptions = {
   gridSize: 8,
@@ -24,7 +25,7 @@ export function App() {
       return (
         <>
           <Navbar gameOptions={gameOptions} showGameMode={false} onBack={() => setScreen("main")} />
-          <MainScreen onStart={() => setScreen("menu")} />;
+          <MainScreen onStart={() => setScreen("menu")} onRecords={() => setScreen("records")} />;
         </>
       );
     case "menu":
@@ -51,6 +52,13 @@ export function App() {
             onReplay={() => setGameKey((key) => key + 1)}
             onMenu={() => setScreen("menu")}
           />
+        </>
+      );
+    case "records":
+      return (
+        <>
+          <Navbar gameOptions={gameOptions} showGameMode={false} onBack={() => setScreen("main")} />
+          <RecordsScreen />
         </>
       );
   }

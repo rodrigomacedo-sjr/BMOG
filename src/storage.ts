@@ -20,6 +20,18 @@ export function recordKey({ gridSize, base, startingBoard }: GameOptions) {
   return `${gridSize}:${base}:${startingBoard}`;
 }
 
+export function orderedRecords(records: GameRecords) {
+  return Object.entries(records)
+    .sort(([first], [second]) => {
+      const firstParts = first.split(":");
+      const secondParts = second.split(":");
+      return Number(firstParts[0]) - Number(secondParts[0]) ||
+        Number(firstParts[1]) - Number(secondParts[1]) ||
+        (firstParts[2] === "zeroed" ? 0 : 1) - (secondParts[2] === "zeroed" ? 0 : 1);
+    })
+    .map(([key, record]) => ({ key, record }));
+}
+
 export function mergeRecords(
   records: GameRecords,
   options: GameOptions,
