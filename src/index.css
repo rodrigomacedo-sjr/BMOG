@@ -953,6 +953,10 @@ body::before {
     padding: 0.9rem;
   }
 
+  .game-screen:has(.win-panel) {
+    grid-template-rows: minmax(0, 1fr);
+  }
+
   .game-hud {
     grid-row: 1;
   }
