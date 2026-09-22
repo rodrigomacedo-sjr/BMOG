@@ -49,9 +49,9 @@ export default function Navbar({
           <div className="audio-settings" role="dialog" aria-label="Sound settings">
             <fieldset>
               <legend>Music</legend>
-              <label><input type="radio" name="music-track" checked={audioSettings.track === "1"} onChange={() => onTrackChange("1")} /> Track 1</label>
-              <label><input type="radio" name="music-track" checked={audioSettings.track === "2"} onChange={() => onTrackChange("2")} /> Track 2</label>
-              <label><input type="radio" name="music-track" checked={audioSettings.track === "off"} onChange={() => onTrackChange("off")} /> Off</label>
+              <label><input type="radio" name="music-track" checked={audioSettings.track === "1"} onChange={() => onTrackChange("1")} />Track 1</label>
+              <label><input type="radio" name="music-track" checked={audioSettings.track === "2"} onChange={() => onTrackChange("2")} />Track 2</label>
+              <label><input type="radio" name="music-track" checked={audioSettings.track === "off"} onChange={() => onTrackChange("off")} />Off</label>
             </fieldset>
             <label>Music volume <input aria-label="Music volume" type="range" min="0" max="1" step="0.05" value={audioSettings.musicVolume} onChange={(event) => onMusicVolumeChange(Number(event.target.value))} /></label>
             <label>Effects volume <input aria-label="Effects volume" type="range" min="0" max="1" step="0.05" value={audioSettings.effectsVolume} onChange={(event) => onEffectsVolumeChange(Number(event.target.value))} /></label>

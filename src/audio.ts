@@ -113,7 +113,11 @@ export function useAudio() {
       music.removeEventListener("ended", advancePlaylist);
       music.pause();
     };
-  }, [playlistIndex, settings.musicVolume, settings.track]);
+  }, [playlistIndex, settings.track]);
+
+  useEffect(() => {
+    if (musicRef.current) musicRef.current.volume = settings.musicVolume;
+  }, [settings.musicVolume]);
 
   useEffect(() => {
     if (typeof document === "undefined") return;

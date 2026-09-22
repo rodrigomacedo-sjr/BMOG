@@ -160,8 +160,32 @@ body::before {
 }
 
 .audio-settings fieldset label {
-  display: flex;
-  align-items: center;
+  display: grid;
+  min-height: 2.1rem;
+  place-items: center;
+  border: 2px solid var(--color-accent);
+  cursor: pointer;
+}
+
+.audio-settings fieldset {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.audio-settings fieldset input {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  opacity: 0;
+}
+
+.audio-settings fieldset label:has(input:checked) {
+  color: var(--color-primary);
+  background: var(--color-action);
+}
+
+.audio-settings fieldset label:has(input:focus-visible) {
+  outline: 2px solid var(--color-correct);
+  outline-offset: 2px;
 }
 
 .return-button:hover,
