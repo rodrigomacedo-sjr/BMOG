@@ -114,7 +114,7 @@ function padZero(num: number): string {
 }
 
 export function calcTime(time: number) {
-  const min = padZero(Math.floor((time % 360000) / 6000));
+  const min = padZero(Math.floor(time / 6000));
 
   const sec = padZero(Math.floor((time % 6000) / 100));
 
