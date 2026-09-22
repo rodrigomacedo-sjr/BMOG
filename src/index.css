@@ -267,16 +267,12 @@ body::before {
   animation: screen-in 220ms ease-out;
 }
 
-.win-panel__eyebrow,
-.win-panel__stats dt {
+.win-panel__stats dt,
+.game-confirm__panel p {
   margin: 0;
   font: 800 0.7rem/1 ui-monospace, SFMono-Regular, Menlo, monospace;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-}
-
-.win-panel__eyebrow {
-  color: var(--color-correct);
 }
 
 .win-panel__title {

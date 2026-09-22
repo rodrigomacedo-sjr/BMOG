@@ -17,7 +17,6 @@ export default function WinPanel({
 }: WinPanelProps) {
   return (
     <section className="win-panel" aria-labelledby="win-panel-title">
-      <p className="win-panel__eyebrow">board cleared</p>
       <h1 id="win-panel-title" className="win-panel__title">
         you win
       </h1>
