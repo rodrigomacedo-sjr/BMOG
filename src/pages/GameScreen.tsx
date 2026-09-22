@@ -35,6 +35,10 @@ function GameScreen({ gameOptions, onReplay, onMenu }: GameScreenProps) {
   const rewardedColumnsRef = useRef(new Set<number>());
   const popupTimeoutRef = useRef<number | undefined>(undefined);
   const wonRef = useRef(false);
+  const giveUpButtonRef = useRef<HTMLButtonElement>(null);
+  const cancelGiveUpButtonRef = useRef<HTMLButtonElement>(null);
+  const confirmGiveUpButtonRef = useRef<HTMLButtonElement>(null);
+  const wasConfirmGiveUpRef = useRef(false);
 
   useEffect(() => {
     const startedAt = startedAtRef.current;
@@ -52,6 +56,39 @@ function GameScreen({ gameOptions, onReplay, onMenu }: GameScreenProps) {
       window.clearTimeout(popupTimeoutRef.current);
     };
   }, []);
+
+  useEffect(() => {
+    if (confirmGiveUp) {
+      cancelGiveUpButtonRef.current?.focus();
+    } else if (wasConfirmGiveUpRef.current) {
+      giveUpButtonRef.current?.focus();
+    }
+
+    wasConfirmGiveUpRef.current = confirmGiveUp;
+  }, [confirmGiveUp]);
+
+  function handleGiveUpDialogKeyDown(
+    event: React.KeyboardEvent<HTMLDivElement>,
+  ) {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      setConfirmGiveUp(false);
+      return;
+    }
+
+    if (event.key !== "Tab") return;
+
+    event.preventDefault();
+    const activeElement = document.activeElement;
+    const nextButton = event.shiftKey
+      ? activeElement === cancelGiveUpButtonRef.current
+        ? confirmGiveUpButtonRef.current
+        : cancelGiveUpButtonRef.current
+      : activeElement === confirmGiveUpButtonRef.current
+        ? cancelGiveUpButtonRef.current
+        : confirmGiveUpButtonRef.current;
+    nextButton?.focus();
+  }
 
   function handleClick(row: number, col: number) {
     if (wonRef.current) return;
@@ -152,6 +189,7 @@ function GameScreen({ gameOptions, onReplay, onMenu }: GameScreenProps) {
             score={score}
             combo={combo}
             onGiveUp={() => setConfirmGiveUp(true)}
+            giveUpButtonRef={giveUpButtonRef}
           />
           <GameBoardComponent
             gameBoard={gameBoard}
@@ -159,13 +197,23 @@ function GameScreen({ gameOptions, onReplay, onMenu }: GameScreenProps) {
             scorePopup={scorePopup}
           />
           {confirmGiveUp && (
-            <div className="game-confirm" role="dialog" aria-modal="true" aria-labelledby="give-up-title">
+            <div
+              className="game-confirm"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="give-up-title"
+              onKeyDown={handleGiveUpDialogKeyDown}
+            >
               <div className="game-confirm__panel">
                 <h2 id="give-up-title">give up?</h2>
                 <p>this run will be lost.</p>
                 <div className="game-confirm__actions">
-                  <button onClick={() => setConfirmGiveUp(false)}>cancel</button>
-                  <button onClick={onMenu}>give up</button>
+                  <button ref={cancelGiveUpButtonRef} onClick={() => setConfirmGiveUp(false)}>
+                    cancel
+                  </button>
+                  <button ref={confirmGiveUpButtonRef} onClick={onMenu}>
+                    give up
+                  </button>
                 </div>
               </div>
             </div>

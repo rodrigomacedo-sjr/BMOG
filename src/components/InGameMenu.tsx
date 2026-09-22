@@ -1,10 +1,12 @@
 import { calcTime } from "@/game/utils";
+import type { RefObject } from "react";
 
 type InGameMenuProps = {
   time: number;
   score: number;
   combo: number;
   onGiveUp: () => void;
+  giveUpButtonRef: RefObject<HTMLButtonElement | null>;
 };
 
 export default function InGameMenu({
@@ -12,6 +14,7 @@ export default function InGameMenu({
   score,
   combo,
   onGiveUp,
+  giveUpButtonRef,
 }: InGameMenuProps) {
   return (
     <div className="game-hud">
@@ -26,7 +29,7 @@ export default function InGameMenu({
           combo: <b>{combo.toFixed(1)}x</b>
         </p>
       </div>
-      <button className="game-hud__give-up" onClick={onGiveUp}>
+      <button ref={giveUpButtonRef} className="game-hud__give-up" onClick={onGiveUp}>
         give up
       </button>
     </div>
