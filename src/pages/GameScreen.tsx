@@ -215,8 +215,8 @@ function GameScreen({ gameOptions, onReplay, onMenu, onGiveUp, playEffect }: Gam
           <InGameMenu
             time={time}
             score={score}
-        combo={combo}
-        comboBump={comboBump}
+            combo={combo}
+            comboBump={comboBump}
             onGiveUp={() => setConfirmGiveUp(true)}
             giveUpButtonRef={giveUpButtonRef}
           />
