@@ -928,7 +928,7 @@ body::before {
     content: "↩";
     font-size: 1.35rem;
     line-height: 1;
-    transform: translateY(0.08rem);
+    transform: translateY(0.16rem);
   }
 
   .site-nav__title {
