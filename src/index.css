@@ -760,7 +760,7 @@ body::before {
 
 .game-hud__stat--combo b {
   color: var(--color-action);
-  animation: combo-pulse 2.8s steps(2, end) infinite;
+  animation: combo-up 260ms ease-out;
 }
 
 .game-hud__give-up {
@@ -855,18 +855,10 @@ body::before {
   }
 }
 
-@keyframes combo-pulse {
-  0%,
-  94%,
-  100% {
-    transform: scale(1);
-  }
-  96% {
-    transform: scale(1.08) rotate(-1deg);
-  }
-  98% {
-    transform: scale(0.98) rotate(1deg);
-  }
+@keyframes combo-up {
+  0% { transform: translateY(0.35rem) scale(0.75); color: var(--color-correct); }
+  65% { transform: translateY(-0.18rem) scale(1.16) rotate(-2deg); }
+  100% { transform: translateY(0) scale(1); }
 }
 
 @keyframes cell-press {
@@ -944,9 +936,19 @@ body::before {
   }
 
   .game-menu {
-    margin-top: clamp(2.5rem, 12vh, 5rem);
+    margin-top: clamp(1rem, 5vh, 2.5rem);
     box-shadow: 5px 5px 0 var(--color-action);
   }
+
+  .game-menu__title { font-size: clamp(2rem, 9vw, 2.6rem); }
+
+  .game-menu__group { gap: 0.35rem; margin-top: 0.85rem; }
+
+  .game-menu__group:first-of-type { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+
+  .game-menu__option { min-height: 2.25rem; font-size: 0.75rem; }
+
+  .game-menu__start { margin-top: 1rem; padding: 0.8rem; }
 
   .game-screen {
     grid-template-rows: auto minmax(0, 1fr);
@@ -973,6 +975,13 @@ body::before {
 
   .game-hud__stats {
     gap: 2rem;
+  }
+
+  .game-hud__give-up {
+    position: fixed;
+    right: 0.9rem;
+    bottom: 0.9rem;
+    z-index: 2;
   }
 
   .win-panel {

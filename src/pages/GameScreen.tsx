@@ -26,6 +26,7 @@ function GameScreen({ gameOptions, onReplay, onMenu, onGiveUp, playEffect }: Gam
   const [time, setTime] = useState(0);
   const [score, setScore] = useState(0);
   const [combo, setCombo] = useState(1);
+  const [comboBump, setComboBump] = useState(0);
   const [highestCombo, setHighestCombo] = useState(1);
   const [newRecords, setNewRecords] = useState({
     newBestTime: false,
@@ -171,6 +172,7 @@ function GameScreen({ gameOptions, onReplay, onMenu, onGiveUp, playEffect }: Gam
         600,
       );
     }
+    if (move.combo > comboRef.current) setComboBump((current) => current + 1);
     comboRef.current = move.combo;
     setCombo(move.combo);
     highestComboRef.current = Math.max(highestComboRef.current, move.combo);
@@ -213,7 +215,8 @@ function GameScreen({ gameOptions, onReplay, onMenu, onGiveUp, playEffect }: Gam
           <InGameMenu
             time={time}
             score={score}
-            combo={combo}
+        combo={combo}
+        comboBump={comboBump}
             onGiveUp={() => setConfirmGiveUp(true)}
             giveUpButtonRef={giveUpButtonRef}
           />

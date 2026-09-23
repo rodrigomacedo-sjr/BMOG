@@ -164,9 +164,5 @@ export function calcTime(time: number) {
 
   const mili = padZero(time % 100);
 
-  if (min != "00") {
-    return `${min}:${sec}.${mili}`;
-  } else {
-    return `${sec}.${mili}`;
-  }
+  return `${min}:${sec}.${mili}`;
 }

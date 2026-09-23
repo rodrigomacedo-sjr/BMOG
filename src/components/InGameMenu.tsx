@@ -5,6 +5,7 @@ type InGameMenuProps = {
   time: number;
   score: number;
   combo: number;
+  comboBump: number;
   onGiveUp: () => void;
   giveUpButtonRef: RefObject<HTMLButtonElement | null>;
 };
@@ -13,6 +14,7 @@ export default function InGameMenu({
   time,
   score,
   combo,
+  comboBump,
   onGiveUp,
   giveUpButtonRef,
 }: InGameMenuProps) {
@@ -26,7 +28,7 @@ export default function InGameMenu({
           score: <b>{score}</b>
         </p>
         <p className="game-hud__stat game-hud__stat--combo">
-          combo: <b>{combo.toFixed(1)}x</b>
+          combo: <b key={comboBump}>{combo.toFixed(1)}x</b>
         </p>
       </div>
       <button ref={giveUpButtonRef} className="game-hud__give-up" onClick={onGiveUp}>
