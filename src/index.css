@@ -781,8 +781,7 @@ body::before {
 }
 
 .game-hud__stat--time b {
-  width: 8ch;
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: clamp(1.35rem, 5vw, 2.5rem);
   font-variant-numeric: tabular-nums;
 }
 
