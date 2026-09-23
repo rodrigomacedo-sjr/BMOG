@@ -780,6 +780,12 @@ body::before {
   animation: combo-up 260ms ease-out;
 }
 
+.game-hud__stat--time b {
+  width: 8ch;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
 .game-hud__give-up {
   grid-column: 3;
   justify-self: end;

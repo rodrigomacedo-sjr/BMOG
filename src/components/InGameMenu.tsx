@@ -21,7 +21,7 @@ export default function InGameMenu({
   return (
     <div className="game-hud">
       <div className="game-hud__stats">
-        <p className="game-hud__stat">
+        <p className="game-hud__stat game-hud__stat--time">
           time: <b>{calcTime(time)}</b>
         </p>
         <p className="game-hud__stat">
