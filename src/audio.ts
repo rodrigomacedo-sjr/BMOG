@@ -98,17 +98,21 @@ export function useAudio() {
     music.src = settings.track === "1" ? playlist[playlistIndex]! : track2;
     music.loop = settings.track === "2";
     music.volume = settings.musicVolume;
-    if (settings.track === "1") {
-      const next = new Audio(playlist[(playlistIndex + 1) % playlist.length]!);
-      next.preload = "auto";
-      preloadRef.current = next;
+    const preloadNext = () => {
+      if (settings.track === "1") {
+        const next = new Audio(playlist[(playlistIndex + 1) % playlist.length]!);
+        next.preload = "auto";
+        preloadRef.current = next;
+      }
     }
     const advancePlaylist = () => setPlaylistIndex((index) => (index + 1) % playlist.length);
     music.addEventListener("ended", advancePlaylist);
+    music.addEventListener("playing", preloadNext, { once: true });
     void music.play().catch(() => {});
 
     return () => {
       music.removeEventListener("ended", advancePlaylist);
+      music.removeEventListener("playing", preloadNext);
       music.pause();
     };
   }, [playlistIndex, settings.track]);
