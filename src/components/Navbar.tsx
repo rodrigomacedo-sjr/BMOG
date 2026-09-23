@@ -49,7 +49,7 @@ export default function Navbar({
       </div>
       {showGameMode && (
         <p className="site-nav__mode">
-          {gameOptions.gridSize} x {gameOptions.gridSize} / Base {gameOptions.base} / {gameOptions.startingBoard}
+          {gameOptions.gridSize}×{gameOptions.gridSize} / {gameOptions.base === 16 ? "HEX" : "DEC"} / {gameOptions.startingBoard === "random" ? "⤨" : "0"}
         </p>
       )}
       <div className="site-nav__actions" ref={audioSettingsRef}>
