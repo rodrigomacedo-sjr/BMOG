@@ -11,20 +11,12 @@ import confirmSound from "@/assets/sound-confirm.mp3";
 import bmogSound from "@/assets/sound-bmog.mp3";
 import track2 from "@/assets/music-track-2.ogg";
 import track01 from "@/assets/music-track-01.ogg";
-import track02 from "@/assets/music-track-02.ogg";
-import track03 from "@/assets/music-track-03.ogg";
 import track04 from "@/assets/music-track-04.ogg";
-import track05 from "@/assets/music-track-05.ogg";
-import track06 from "@/assets/music-track-06.ogg";
 import track07 from "@/assets/music-track-07.ogg";
-import track08 from "@/assets/music-track-08.ogg";
-import track09 from "@/assets/music-track-09.ogg";
 import track10 from "@/assets/music-track-10.ogg";
-import track11 from "@/assets/music-track-11.ogg";
-import track12 from "@/assets/music-track-12.ogg";
 
 const SETTINGS_KEY = "audio-settings";
-const playlist = [track01, track02, track03, track04, track05, track06, track07, track08, track09, track10, track11, track12];
+const playlist = [track01, track04, track07, track10];
 const effects = {
   click: clickSound,
   correct: correctSound,
@@ -87,6 +79,7 @@ export function useAudio() {
   const [settings, setSettings] = useState(readAudioSettings);
   const [playlistIndex, setPlaylistIndex] = useState(0);
   const musicRef = useRef<HTMLAudioElement | null>(null);
+  const preloadRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     try {
@@ -105,6 +98,11 @@ export function useAudio() {
     music.src = settings.track === "1" ? playlist[playlistIndex]! : track2;
     music.loop = settings.track === "2";
     music.volume = settings.musicVolume;
+    if (settings.track === "1") {
+      const next = new Audio(playlist[(playlistIndex + 1) % playlist.length]!);
+      next.preload = "auto";
+      preloadRef.current = next;
+    }
     const advancePlaylist = () => setPlaylistIndex((index) => (index + 1) % playlist.length);
     music.addEventListener("ended", advancePlaylist);
     void music.play().catch(() => {});
