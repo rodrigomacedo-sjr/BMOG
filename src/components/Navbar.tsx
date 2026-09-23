@@ -12,6 +12,7 @@ type NavbarProps = {
   onTrackChange: (track: AudioTrack) => void;
   onMusicVolumeChange: (volume: number) => void;
   onEffectsVolumeChange: (volume: number) => void;
+  onClickSound: () => void;
 };
 
 export default function Navbar({
@@ -22,6 +23,7 @@ export default function Navbar({
   onTrackChange,
   onMusicVolumeChange,
   onEffectsVolumeChange,
+  onClickSound,
 }: NavbarProps) {
   const [showAudioSettings, setShowAudioSettings] = useState(false);
   const audioSettingsRef = useRef<HTMLDivElement>(null);
@@ -55,7 +57,10 @@ export default function Navbar({
           className="audio-settings__toggle"
           aria-label="Sound settings"
           aria-expanded={showAudioSettings}
-          onClick={() => setShowAudioSettings((show) => !show)}
+          onClick={() => {
+            onClickSound();
+            setShowAudioSettings((show) => !show);
+          }}
         >
           ♫
         </button>
@@ -71,7 +76,10 @@ export default function Navbar({
             <label>Effects volume <input aria-label="Effects volume" type="range" min="0" max="1" step="0.05" value={audioSettings.effectsVolume} onChange={(event) => onEffectsVolumeChange(Number(event.target.value))} /></label>
           </div>
         )}
-        <ReturnButton onClick={onBack} />
+        <ReturnButton onClick={() => {
+          onClickSound();
+          onBack();
+        }} />
       </div>
     </div>
   );

@@ -13,6 +13,11 @@ declare module "*.mp3" {
   export = path;
 }
 
+declare module "*.ogg" {
+  const path: `${string}.ogg`;
+  export = path;
+}
+
 declare module "*.module.css" {
   /**
    * A record of class names to their corresponding CSS module classes

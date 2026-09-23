@@ -26,6 +26,7 @@ export function App() {
     onTrackChange: audio.setTrack,
     onMusicVolumeChange: audio.setMusicVolume,
     onEffectsVolumeChange: audio.setEffectsVolume,
+    onClickSound: () => audio.playEffect("confirm"),
   };
 
   switch (screen) {
