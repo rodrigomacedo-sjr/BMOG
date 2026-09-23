@@ -11,10 +11,12 @@ export default function RecordsScreen() {
         <div className="records-screen__list">
           {records.map(({ key, record }) => {
             const [gridSize, base, startingBoard] = key.split(":");
+            const notation = base === "16" ? "HEX" : "DEC";
+            const board = startingBoard === "random" ? "⤨" : "0";
 
             return (
               <section className="record-card" key={key}>
-                <h2>{gridSize} x {gridSize} / Base {base} / {startingBoard}</h2>
+                <h2>{gridSize}×{gridSize} / {notation} / {board}</h2>
                 <dl>
                   <div>
                     <dt>best time</dt>

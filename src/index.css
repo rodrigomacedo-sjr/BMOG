@@ -317,9 +317,12 @@ body::before {
   min-height: 0;
   margin: clamp(1.5rem, 6vh, 4rem) auto;
   overflow: auto;
-  scrollbar-color: var(--color-accent) var(--color-secondary);
-  scrollbar-width: thin;
+  scrollbar-width: none;
   animation: screen-in 220ms ease-out;
+}
+
+.records-screen::-webkit-scrollbar {
+  display: none;
 }
 
 .records-screen__title {
@@ -764,7 +767,7 @@ body::before {
   display: block;
   margin-top: 0.35rem;
   color: #fff6e8;
-  font: 900 clamp(1.75rem, 6vw, 3rem)/0.9 ui-sans-serif, system-ui;
+  font: 900 clamp(1.35rem, 5vw, 2.5rem)/0.9 ui-sans-serif, system-ui;
   letter-spacing: -0.08em;
   opacity: 1;
 }
@@ -781,7 +784,6 @@ body::before {
 }
 
 .game-hud__stat--time b {
-  font-size: clamp(1.35rem, 5vw, 2.5rem);
   font-variant-numeric: tabular-nums;
 }
 
