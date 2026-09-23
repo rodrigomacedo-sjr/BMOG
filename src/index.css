@@ -317,12 +317,14 @@ body::before {
   min-height: 0;
   margin: clamp(1.5rem, 6vh, 4rem) auto;
   overflow: auto;
+  -ms-overflow-style: none;
   scrollbar-width: none;
   animation: screen-in 220ms ease-out;
 }
 
 .records-screen::-webkit-scrollbar {
-  display: none;
+  width: 0;
+  height: 0;
 }
 
 .records-screen__title {
@@ -749,12 +751,16 @@ body::before {
 
 .game-hud__stats {
   grid-column: 2;
-  display: flex;
-  justify-content: center;
-  gap: clamp(1.5rem, 7vw, 5rem);
+  display: grid;
+  grid-template-columns: 1.1fr 1.45fr 1fr;
+  align-items: end;
+  width: min(100%, 28rem);
+  gap: clamp(0.75rem, 3vw, 2rem);
 }
 
 .game-hud__stat {
+  display: grid;
+  grid-template-rows: auto 1fr;
   margin: 0;
   text-align: center;
   font: 800 0.625rem/1 ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -770,6 +776,7 @@ body::before {
   font: 900 clamp(1.35rem, 5vw, 2.5rem)/0.9 ui-sans-serif, system-ui;
   letter-spacing: -0.08em;
   opacity: 1;
+  align-self: end;
 }
 
 .game-hud__stat small {
@@ -1000,7 +1007,9 @@ body::before {
   }
 
   .game-hud__stats {
-    gap: 2rem;
+    grid-column: 1 / -1;
+    width: 100%;
+    gap: 0.5rem;
   }
 
   .game-hud__give-up {
